@@ -1,0 +1,125 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-coffee-brown: #8B4513;
+    --color-cream: #F5F5DC;
+    --color-dark-roast: #3C2414;
+    --color-gold-accent: #D4AF37;
+    --color-warm-white: #FAF9F6;
+    --color-light-brown: #D2B48C;
+    --color-espresso: #2F1B14;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-sans antialiased;
+    background-color: var(--color-warm-white);
+    color: var(--color-espresso);
+  }
+
+  img {
+    @apply max-w-full h-auto;
+  }
+
+  *:focus {
+    @apply outline-none ring-2 ring-gold-accent ring-opacity-50;
+  }
+}
+
+@layer components {
+  .btn-coffee {
+    @apply px-6 py-3 bg-coffee-brown text-warm-white font-semibold rounded-xl;
+    @apply hover:bg-coffee-700 transition-all duration-300 ease-in-out;
+    @apply shadow-coffee hover:shadow-coffee-lg;
+    @apply focus:ring-2 focus:ring-coffee-brown focus:ring-opacity-50;
+  }
+
+  .btn-gold {
+    @apply px-6 py-3 bg-gold-accent text-espresso font-semibold rounded-xl;
+    @apply hover:bg-accent-600 transition-all duration-300 ease-in-out;
+    @apply shadow-warm hover:shadow-lg;
+    @apply focus:ring-2 focus:ring-gold-accent focus:ring-opacity-50;
+  }
+
+  .btn-outline-coffee {
+    @apply px-6 py-3 border-2 border-coffee-brown text-coffee-brown font-semibold rounded-xl;
+    @apply hover:bg-coffee-brown hover:text-warm-white transition-all duration-300 ease-in-out;
+    @apply focus:ring-2 focus:ring-coffee-brown focus:ring-opacity-50;
+  }
+
+  .card-coffee {
+    @apply bg-warm-white border border-cream rounded-2xl p-6;
+    @apply shadow-coffee hover:shadow-coffee-lg transition-all duration-300 ease-in-out;
+  }
+
+  .container-coffee {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .bg-coffee-gradient {
+    background: linear-gradient(135deg, var(--color-coffee-brown) 0%, var(--color-dark-roast) 100%);
+  }
+
+  .bg-cream-gradient {
+    background: linear-gradient(135deg, var(--color-warm-white) 0%, var(--color-cream) 100%);
+  }
+
+  .heading-coffee {
+    @apply text-4xl md:text-5xl font-bold text-espresso leading-tight;
+  }
+
+  .subheading-coffee {
+    @apply text-xl md:text-2xl text-coffee-brown font-medium;
+  }
+
+  .steam-animation {
+    @apply animate-steam;
+  }
+
+  .brew-animation {
+    @apply animate-brew;
+  }
+}
+
+@layer utilities {
+  .space-coffee {
+    @apply space-y-6 md:space-y-8;
+  }
+
+  .text-shadow-coffee {
+    text-shadow: 2px 2px 4px rgba(139, 69, 19, 0.3);
+  }
+
+  .bg-coffee-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23F5F5DC' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .hide-mobile {
+    @apply hidden md:block;
+  }
+
+  .show-mobile {
+    @apply block md:hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .steam-animation,
+  .brew-animation {
+    @apply animate-none;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .dark {
+    --color-warm-white: #1A0F0A;
+    --color-cream: #2F1B14;
+    --color-espresso: #F5F5DC;
+  }
+}
