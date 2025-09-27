@@ -254,7 +254,7 @@
           Simple terms, powerful app, amazing coffee recipes
         </p>
         <nuxt-link
-          to="/"
+          to="https://apps.apple.com/fr/app/caffio/id6753070040?l=en-GB"
           class="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-coffee-brown to-dark-roast text-white font-semibold rounded-xl shadow-coffee hover:shadow-coffee-lg transform hover:-translate-y-1 transition-all duration-300"
         >
           Download Caffio

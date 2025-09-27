@@ -40,7 +40,7 @@
               Contact
             </nuxt-link>
             <a
-              href="https://apps.apple.com/app/caffio"
+              href="https://apps.apple.com/fr/app/caffio/id6753070040?l=en-GB"
               class="bg-coffee-brown text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-dark-roast transition-all duration-300 transform hover:-translate-y-1"
             >
               Download
@@ -96,7 +96,7 @@
             Contact
           </nuxt-link>
           <a
-            href="https://apps.apple.com/app/caffio"
+            href="https://apps.apple.com/fr/app/caffio/id6753070040?l=en-GB"
             class="block bg-coffee-brown text-white px-3 py-2 rounded-xl text-base font-semibold text-center"
           >
             Download

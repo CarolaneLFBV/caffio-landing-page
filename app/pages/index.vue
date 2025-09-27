@@ -20,7 +20,7 @@
 
             <div class="flex flex-col sm:flex-row gap-4">
               <a
-                href="https://apps.apple.com/app/caffio"
+                href="https://apps.apple.com/fr/app/caffio/id6753070040?l=en-GB"
                 class="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-coffee-brown to-dark-roast text-white font-semibold rounded-xl shadow-coffee hover:shadow-coffee-lg transform hover:-translate-y-1 transition-all duration-300"
                 aria-label="Download Caffio on the App Store"
               >
@@ -205,7 +205,7 @@
             Join thousands of coffee enthusiasts mastering the art of brewing with AI
           </p>
           <a
-            href="https://apps.apple.com/app/caffio"
+            href="https://apps.apple.com/fr/app/caffio/id6753070040?l=en-GB"
             class="inline-flex items-center justify-center px-10 py-5 bg-white text-coffee-brown font-bold text-lg rounded-xl shadow-warm hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300"
             aria-label="Download Caffio from App Store"
           >

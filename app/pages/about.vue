@@ -108,7 +108,7 @@
             Caffio is more than an app, it's a community of coffee enthusiasts who share the love of perfect coffee.
           </p>
           <a
-            href="https://apps.apple.com/app/caffio"
+            href="https://apps.apple.com/fr/app/caffio/id6753070040?l=en-GB"
             class="inline-flex items-center justify-center px-8 py-4 bg-coffee-brown text-white font-semibold rounded-xl hover:bg-dark-roast transition-all duration-300 transform hover:-translate-y-1"
           >
 Download Caffio

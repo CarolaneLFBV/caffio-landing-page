@@ -28,7 +28,7 @@
               </nuxt-link>
             </li>
             <li>
-              <a href="https://apps.apple.com/app/caffio" class="text-cream hover:text-accent-300 transition-colors">
+              <a href="https://apps.apple.com/fr/app/caffio/id6753070040?l=en-GB" class="text-cream hover:text-accent-300 transition-colors">
                 Download App
               </a>
             </li>
