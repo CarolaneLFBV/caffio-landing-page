@@ -150,7 +150,7 @@ useHead({
   link: [
     {
       rel: 'canonical',
-      href: 'https://caffio.fr/about'
+      href: 'https://caffio.app/about'
     }
   ]
 })

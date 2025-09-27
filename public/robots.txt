@@ -30,6 +30,6 @@ User-agent: *
 Disallow: /admin/
 Disallow: /api/private/
 
-Sitemap: https://caffio.fr/sitemap.xml
+Sitemap: https://caffio.app/sitemap.xml
 
-Host: https://caffio.fr
+Host: https://caffio.app

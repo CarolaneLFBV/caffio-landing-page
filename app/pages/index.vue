@@ -242,7 +242,7 @@ useHead({
   link: [
     {
       rel: 'canonical',
-      href: 'https://caffio.fr'
+      href: 'https://caffio.app'
     }
   ]
 })

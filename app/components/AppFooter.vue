@@ -54,7 +54,7 @@
               </nuxt-link>
             </li>
             <li>
-              <a href="mailto:support@caffio.fr" class="text-cream hover:text-accent-300 transition-colors">
+              <a href="mailto:support@caffio.app" class="text-cream hover:text-accent-300 transition-colors">
                 Email Support
               </a>
             </li>

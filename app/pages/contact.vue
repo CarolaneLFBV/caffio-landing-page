@@ -62,8 +62,8 @@
                 <div class="text-2xl">🌐</div>
                 <div>
                   <h3 class="font-semibold text-coffee-brown mb-1">Website</h3>
-                  <a href="https://caffio.fr" class="text-espresso hover:text-coffee-brown underline">
-                    https://caffio.fr
+                  <a href="https://caffio.app" class="text-espresso hover:text-coffee-brown underline">
+                    https://caffio.app
                   </a>
                 </div>
               </div>
@@ -212,7 +212,7 @@ useHead({
   link: [
     {
       rel: 'canonical',
-      href: 'https://caffio.fr/contact'
+      href: 'https://caffio.app/contact'
     }
   ]
 })

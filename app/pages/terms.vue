@@ -236,7 +236,7 @@
               <ul class="text-espresso space-y-2">
                 <li><strong>Email:</strong> <a href="mailto:caffio@okorp.fr" class="text-coffee-brown hover:text-accent-500 underline">caffio@okorp.fr</a></li>
                 <li><strong>Developer:</strong> Carolane Lefebvre - Okorp</li>
-                <li><strong>Website:</strong> <a href="https://caffio.fr" class="text-coffee-brown hover:text-accent-500 underline">https://caffio.fr</a></li>
+                <li><strong>Website:</strong> <a href="https://caffio.app" class="text-coffee-brown hover:text-accent-500 underline">https://caffio.app</a></li>
               </ul>
             </div>
           </div>
@@ -294,7 +294,7 @@ useHead({
   link: [
     {
       rel: 'canonical',
-      href: 'https://caffio.fr/terms'
+      href: 'https://caffio.app/terms'
     }
   ]
 })

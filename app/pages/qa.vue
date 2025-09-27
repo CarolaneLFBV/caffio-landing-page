@@ -215,7 +215,7 @@ useHead({
   link: [
     {
       rel: 'canonical',
-      href: 'https://caffio.fr/qa'
+      href: 'https://caffio.app/qa'
     }
   ]
 })

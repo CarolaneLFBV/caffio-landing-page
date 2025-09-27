@@ -1,5 +1,5 @@
 export default defineEventHandler(async (event) => {
-  const baseUrl = 'https://caffio.fr'
+  const baseUrl = 'https://caffio.app'
 
   // Pages du site avec leurs priorités SEO
   const pages = [

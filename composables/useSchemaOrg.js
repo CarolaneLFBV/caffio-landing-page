@@ -22,13 +22,13 @@ export const useSchemaOrg = () => {
     author: {
       '@type': 'Organization',
       name: 'Caffio',
-      url: 'https://caffio.fr'
+      url: 'https://caffio.app'
     },
     softwareVersion: '1.0',
     screenshot: [
-      'https://caffio.fr/screenshots/home.jpg',
-      'https://caffio.fr/screenshots/recipe-detail.jpg',
-      'https://caffio.fr/screenshots/ai-generator.jpg'
+      'https://caffio.app/screenshots/home.jpg',
+      'https://caffio.app/screenshots/recipe-detail.jpg',
+      'https://caffio.app/screenshots/ai-generator.jpg'
     ],
     featureList: [
       'AI-powered recipe generation',
@@ -49,8 +49,8 @@ export const useSchemaOrg = () => {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'Caffio',
-    url: 'https://caffio.fr',
-    logo: 'https://caffio.fr/logo.png',
+    url: 'https://caffio.app',
+    logo: 'https://caffio.app/logo.png',
     description: 'Creators of the AI-powered coffee recipe app for iOS.',
     sameAs: [
       'https://twitter.com/caffioapp',
@@ -69,12 +69,12 @@ export const useSchemaOrg = () => {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'Caffio',
-    url: 'https://caffio.fr',
+    url: 'https://caffio.app',
     potentialAction: {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: 'https://caffio.fr/search?q={search_term_string}'
+        urlTemplate: 'https://caffio.app/search?q={search_term_string}'
       },
       'query-input': 'required name=search_term_string'
     }

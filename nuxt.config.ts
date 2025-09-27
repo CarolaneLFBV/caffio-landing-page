@@ -26,14 +26,14 @@ export default defineNuxtConfig({
 
         // Open Graph / Facebook
         { property: 'og:type', content: 'website' },
-        { property: 'og:url', content: 'https://caffio.fr' },
+        { property: 'og:url', content: 'https://caffio.app' },
         { property: 'og:title', content: 'Caffio - AI-Powered Coffee Recipe App' },
         { property: 'og:description', content: 'Master the art of coffee with AI-powered recipes and professional brewing guides. Available on the App Store.' },
         { property: 'og:image', content: '/og-image.jpg' },
 
         // Twitter
         { property: 'twitter:card', content: 'summary_large_image' },
-        { property: 'twitter:url', content: 'https://caffio.fr' },
+        { property: 'twitter:url', content: 'https://caffio.app' },
         { property: 'twitter:title', content: 'Caffio - AI-Powered Coffee Recipe App' },
         { property: 'twitter:description', content: 'Master the art of coffee with AI-powered recipes and professional brewing guides.' },
         { property: 'twitter:image', content: '/twitter-image.jpg' },
@@ -52,7 +52,7 @@ export default defineNuxtConfig({
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
         { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
-        { rel: 'canonical', href: 'https://caffio.fr' }
+        { rel: 'canonical', href: 'https://caffio.app' }
       ]
     }
   },
