@@ -1,0 +1,121 @@
+@import "tailwindcss";
+
+:root {
+  --caffio-surface: #F5F0EB;
+  --caffio-card: #FFFBF7;
+  --caffio-border: #E0D5C8;
+  --caffio-green: #7B8F6A;
+  --caffio-green-light: #93A882;
+  --caffio-warm: #A0845C;
+  --caffio-brown-light: #C4A882;
+  --caffio-brown: #8B6B4A;
+  --caffio-brown-dark: #5C3D2E;
+  --caffio-text: #3A2A1A;
+  --caffio-text-muted: #8B7355;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --caffio-surface: #1A1410;
+    --caffio-card: #2A221C;
+    --caffio-border: #3A302A;
+    --caffio-green: #8FA37E;
+    --caffio-green-light: #A3B894;
+    --caffio-warm: #C4A882;
+    --caffio-brown-light: #8B7355;
+    --caffio-brown: #5C4A38;
+    --caffio-brown-dark: #3D2E22;
+    --caffio-text: #F5F0EB;
+    --caffio-text-muted: #C4A882;
+  }
+}
+
+@theme inline {
+  --color-caffio-surface: var(--caffio-surface);
+  --color-caffio-card: var(--caffio-card);
+  --color-caffio-border: var(--caffio-border);
+  --color-caffio-green: var(--caffio-green);
+  --color-caffio-green-light: var(--caffio-green-light);
+  --color-caffio-warm: var(--caffio-warm);
+  --color-caffio-brown-light: var(--caffio-brown-light);
+  --color-caffio-brown: var(--caffio-brown);
+  --color-caffio-brown-dark: var(--caffio-brown-dark);
+  --color-caffio-text: var(--caffio-text);
+  --color-caffio-text-muted: var(--caffio-text-muted);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-playfair);
+}
+
+body {
+  background: var(--caffio-surface);
+  color: var(--caffio-text);
+  font-family: var(--font-inter), "Inter", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--caffio-green);
+  color: white;
+}
+
+input, select, textarea {
+  font-family: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--caffio-brown-light);
+  border-radius: 3px;
+  opacity: 0.4;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--caffio-brown);
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s ease-out both;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out both;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.4s ease-out both;
+}
