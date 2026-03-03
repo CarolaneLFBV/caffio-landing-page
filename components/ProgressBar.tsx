@@ -1,19 +1,19 @@
 interface ProgressBarProps {
   currentStep: number;
   totalSteps: number;
+  labels: string[];
 }
-
-const stepLabels = ["Profil café", "Features", "Expérience"];
 
 export default function ProgressBar({
   currentStep,
   totalSteps,
+  labels,
 }: ProgressBarProps) {
   return (
     <div className="mb-8">
       {/* Step indicators */}
       <div className="mb-4 flex items-center">
-        {stepLabels.map((label, i) => (
+        {labels.map((label, i) => (
           <div key={label} className="contents">
             {/* Step */}
             <div className="flex items-center gap-2">

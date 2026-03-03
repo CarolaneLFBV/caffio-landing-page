@@ -1,6 +1,11 @@
+"use client";
+
 import Image from "next/image";
+import { useLanguage } from "@/lib/LanguageContext";
 
 export default function HeroSection() {
+  const { t } = useLanguage();
+
   return (
     <section className="px-6 py-12 text-center sm:px-10 sm:py-16">
       {/* Logo */}
@@ -28,8 +33,11 @@ export default function HeroSection() {
         className="animate-fade-in-up mb-5 text-base font-medium text-caffio-text sm:text-lg"
         style={{ animationDelay: "200ms" }}
       >
-        Aidez-nous à créer l&apos;app café{" "}
-        <span className="font-display italic text-caffio-green">parfaite</span>
+        {t("hero.subtitle_before")}
+        <span className="font-display italic text-caffio-green">
+          {t("hero.subtitle_highlight")}
+        </span>
+        {t("hero.subtitle_after")}
       </p>
 
       {/* Description */}
@@ -37,8 +45,7 @@ export default function HeroSection() {
         className="animate-fade-in-up mx-auto max-w-lg text-sm leading-relaxed text-caffio-text-muted"
         style={{ animationDelay: "300ms" }}
       >
-        Nous concevons Caffio, une application iOS pour les amoureux du café.
-        Vos réponses guident nos décisions produit.
+        {t("hero.description")}
       </p>
 
       {/* Duration pill */}
@@ -51,7 +58,7 @@ export default function HeroSection() {
           <polyline points="12 6 12 12 16 14" />
         </svg>
         <span className="text-xs font-medium text-caffio-text-muted">
-          ~3 minutes
+          {t("hero.duration")}
         </span>
       </div>
     </section>

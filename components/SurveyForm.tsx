@@ -3,8 +3,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import ProgressBar from "./ProgressBar";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const TOTAL_STEPS = 3;
+
+/* ─── Option arrays: values are always in French (stored in DB) ── */
 
 const frequencyOptions = [
   "Jamais",
@@ -41,21 +44,21 @@ const equipmentOptions = [
 const expertiseOptions = ["Débutant", "Intermédiaire", "Expert"];
 
 const featureOptions = [
-  { id: "moments", label: "Capturer des moments café en photo", icon: "M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z" },
-  { id: "sharing", label: "Partage de moments avec ses proches", icon: "M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" },
-  { id: "recipes", label: "Carnet de recettes personnelles", icon: "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" },
-  { id: "ai", label: "Génération de recettes par Apple Intelligence", icon: "M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" },
-  { id: "caffeine", label: "Suivi quotidien de caféine + conseils", icon: "M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" },
-  { id: "timer", label: "Timer de préparation intégré", icon: "M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" },
-  { id: "equipment", label: "Gestion de son équipement café", icon: "M11.42 15.17l-5.645 3.18a.75.75 0 01-1.088-.79l1.47-6.315-4.907-4.26a.75.75 0 01.416-1.28l6.42-.583L11.177.94a.75.75 0 011.346 0l3.091 5.98 6.42.583a.75.75 0 01.416 1.28l-4.907 4.26 1.47 6.315a.75.75 0 01-1.088.79L12.28 16.96" },
-  { id: "community", label: "Communauté et interactions sociales", icon: "M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" },
-  { id: "widgets", label: "Widgets iOS (résumé du jour, favoris)", icon: "M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" },
-  { id: "tasting", label: "Notes de dégustation et notation", icon: "M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" },
-  { id: "sync", label: "Synchronisation iCloud multi-appareils", icon: "M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z" },
-  { id: "healthkit", label: "Intégration HealthKit (santé Apple)", icon: "M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605" },
-  { id: "darkmode", label: "Mode sombre complet", icon: "M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" },
-  { id: "stats", label: "Statistiques et historique de consommation", icon: "M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" },
-  { id: "notifications", label: "Rappels et notifications personnalisées", icon: "M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" },
+  { id: "moments", icon: "M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z" },
+  { id: "sharing", icon: "M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" },
+  { id: "recipes", icon: "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" },
+  { id: "ai", icon: "M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" },
+  { id: "caffeine", icon: "M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" },
+  { id: "timer", icon: "M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" },
+  { id: "equipment", icon: "M11.42 15.17l-5.645 3.18a.75.75 0 01-1.088-.79l1.47-6.315-4.907-4.26a.75.75 0 01.416-1.28l6.42-.583L11.177.94a.75.75 0 011.346 0l3.091 5.98 6.42.583a.75.75 0 01.416 1.28l-4.907 4.26 1.47 6.315a.75.75 0 01-1.088.79L12.28 16.96" },
+  { id: "community", icon: "M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" },
+  { id: "widgets", icon: "M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" },
+  { id: "tasting", icon: "M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" },
+  { id: "sync", icon: "M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z" },
+  { id: "healthkit", icon: "M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605" },
+  { id: "darkmode", icon: "M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" },
+  { id: "stats", icon: "M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" },
+  { id: "notifications", icon: "M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" },
 ];
 
 const designPriorityOptions = [
@@ -94,12 +97,16 @@ function ChipSelect({
   onChange,
   otherValue,
   onOtherChange,
+  getLabel,
+  otherPlaceholder,
 }: {
   options: string[];
   selected: string[];
   onChange: (values: string[]) => void;
   otherValue?: string;
   onOtherChange?: (value: string) => void;
+  getLabel: (value: string) => string;
+  otherPlaceholder: string;
 }) {
   const toggle = (option: string) => {
     onChange(
@@ -125,7 +132,7 @@ function ChipSelect({
                 : "border-caffio-border bg-caffio-card text-caffio-text hover:border-caffio-warm/40 hover:bg-caffio-card/80"
             }`}
           >
-            {option}
+            {getLabel(option)}
           </button>
         ))}
       </div>
@@ -134,7 +141,7 @@ function ChipSelect({
           type="text"
           value={otherValue ?? ""}
           onChange={(e) => onOtherChange(e.target.value)}
-          placeholder="Précisez…"
+          placeholder={otherPlaceholder}
           className="w-full rounded-xl border border-caffio-border bg-caffio-surface px-4 py-2.5 text-sm text-caffio-text placeholder:text-caffio-text-muted/50 transition-all focus:border-caffio-green focus:shadow-[0_0_0_3px_rgba(123,143,106,0.1)] focus:outline-none"
         />
       )}
@@ -149,11 +156,13 @@ function RadioCards({
   selected,
   onChange,
   name,
+  getLabel,
 }: {
   options: string[];
   selected: string;
   onChange: (value: string) => void;
   name: string;
+  getLabel: (value: string) => string;
 }) {
   return (
     <div className="flex flex-col gap-2">
@@ -188,7 +197,7 @@ function RadioCards({
           <span className={`font-medium transition-colors ${
             selected === option ? "text-caffio-text" : "text-caffio-text/80"
           }`}>
-            {option}
+            {getLabel(option)}
           </span>
         </label>
       ))}
@@ -200,6 +209,7 @@ function RadioCards({
 
 export default function SurveyForm() {
   const router = useRouter();
+  const { t } = useLanguage();
   const [step, setStep] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -224,6 +234,7 @@ export default function SurveyForm() {
     setError("");
   };
 
+  // Validation always compares against French values (stored in formData)
   const canGoNext = () => {
     if (step === 0) return formData.frequency !== "" && formData.frequency !== "Jamais" && formData.expertise !== "" && formData.coffeeTypes.length > 0;
     if (step === 1) return formData.features.length > 0;
@@ -233,7 +244,7 @@ export default function SurveyForm() {
 
   const next = () => {
     if (!canGoNext()) {
-      setError("Veuillez remplir les champs obligatoires.");
+      setError(t("error.required"));
       return;
     }
     setStep((s) => Math.min(s + 1, TOTAL_STEPS - 1));
@@ -247,7 +258,7 @@ export default function SurveyForm() {
 
   const submit = async () => {
     if (!canGoNext()) {
-      setError("Veuillez remplir les champs obligatoires.");
+      setError(t("error.required"));
       return;
     }
 
@@ -255,6 +266,7 @@ export default function SurveyForm() {
     setError("");
 
     try {
+      // formData always contains French values — safe to send directly
       const res = await fetch("/api/survey", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -263,19 +275,25 @@ export default function SurveyForm() {
 
       if (!res.ok) {
         const data = await res.json();
-        throw new Error(data.error || "Erreur lors de l'envoi");
+        throw new Error(data.error || t("error.submit"));
       }
 
       router.push("/merci");
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Erreur lors de l'envoi");
+      setError(e instanceof Error ? e.message : t("error.submit"));
       setSubmitting(false);
     }
   };
 
+  const stepLabels = [
+    t("step.profile"),
+    t("step.features"),
+    t("step.experience"),
+  ];
+
   return (
     <div className="rounded-3xl border border-caffio-border bg-caffio-card p-6 shadow-xl shadow-caffio-brown-dark/5 sm:p-8">
-      <ProgressBar currentStep={step} totalSteps={TOTAL_STEPS} />
+      <ProgressBar currentStep={step} totalSteps={TOTAL_STEPS} labels={stepLabels} />
 
       <div className="min-h-[440px]">
         {/* ─── Step 1: Profil ──────────────────────────── */}
@@ -283,16 +301,16 @@ export default function SurveyForm() {
           <div className="animate-fade-in-up space-y-8">
             <div>
               <h2 className="font-display text-2xl font-bold text-caffio-text">
-                Profil café
+                {t("step0.title")}
               </h2>
               <p className="mt-1 text-sm text-caffio-text-muted">
-                Parlez-nous de vos habitudes
+                {t("step0.subtitle")}
               </p>
             </div>
 
             <fieldset>
               <legend className="mb-3 text-sm font-semibold text-caffio-text">
-                Fréquence de consommation
+                {t("step0.frequency_label")}
                 <span className="ml-1 text-caffio-green">*</span>
               </legend>
               <RadioCards
@@ -300,13 +318,14 @@ export default function SurveyForm() {
                 selected={formData.frequency}
                 onChange={(v) => update("frequency", v)}
                 name="frequency"
+                getLabel={t}
               />
             </fieldset>
 
             {formData.frequency === "Jamais" && (
               <div className="rounded-xl border border-caffio-warm/20 bg-caffio-warm/5 p-4">
                 <p className="text-sm font-medium text-caffio-text">
-                  Caffio s&apos;adresse aux amateurs de café. Si vous n&apos;en consommez pas, le questionnaire n&apos;est peut-être pas adapté. Merci d&apos;avoir pris le temps !
+                  {t("step0.frequency_never_msg")}
                 </p>
               </div>
             )}
@@ -315,7 +334,7 @@ export default function SurveyForm() {
 
             <fieldset>
               <legend className="mb-3 text-sm font-semibold text-caffio-text">
-                Types de café préférés
+                {t("step0.coffee_types_label")}
                 <span className="ml-1 text-caffio-green">*</span>
               </legend>
               <ChipSelect
@@ -324,12 +343,14 @@ export default function SurveyForm() {
                 onChange={(v) => update("coffeeTypes", v)}
                 otherValue={otherCoffeeType}
                 onOtherChange={setOtherCoffeeType}
+                getLabel={t}
+                otherPlaceholder={t("other.specify")}
               />
             </fieldset>
 
             <fieldset>
               <legend className="mb-3 text-sm font-semibold text-caffio-text">
-                Équipement possédé
+                {t("step0.equipment_label")}
               </legend>
               <ChipSelect
                 options={equipmentOptions}
@@ -337,12 +358,14 @@ export default function SurveyForm() {
                 onChange={(v) => update("equipment", v)}
                 otherValue={otherEquipment}
                 onOtherChange={setOtherEquipment}
+                getLabel={t}
+                otherPlaceholder={t("other.specify")}
               />
             </fieldset>
 
             <fieldset>
               <legend className="mb-3 text-sm font-semibold text-caffio-text">
-                Niveau d&apos;expérience
+                {t("step0.expertise_label")}
                 <span className="ml-1 text-caffio-green">*</span>
               </legend>
               <RadioCards
@@ -350,6 +373,7 @@ export default function SurveyForm() {
                 selected={formData.expertise}
                 onChange={(v) => update("expertise", v)}
                 name="expertise"
+                getLabel={t}
               />
             </fieldset>
             </>)}
@@ -361,26 +385,26 @@ export default function SurveyForm() {
           <div className="animate-fade-in-up space-y-8">
             <div>
               <h2 className="font-display text-2xl font-bold text-caffio-text">
-                Features souhaitées
+                {t("step1.title")}
               </h2>
               <p className="mt-1 text-sm text-caffio-text-muted">
-                Quelles fonctionnalités vous font envie ?
+                {t("step1.subtitle")}
               </p>
             </div>
 
             {/* App description */}
             <div className="rounded-xl border border-caffio-green/20 bg-caffio-green/5 p-4">
               <p className="text-xs font-bold uppercase tracking-wider text-caffio-green">
-                Caffio, c&apos;est quoi ?
+                {t("step1.app_desc_title")}
               </p>
               <p className="mt-2 text-sm leading-relaxed text-caffio-text">
-                Capturez vos moments café et partagez-les avec vos proches. Suivez votre consommation de caféine au quotidien avec des conseils personnalisés. Laissez Apple Intelligence vous générer des idées de recettes. Et bien plus encore…
+                {t("step1.app_desc_text")}
               </p>
             </div>
 
             <fieldset>
               <legend className="mb-3 text-sm font-semibold text-caffio-text">
-                Fonctionnalités souhaitées
+                {t("step1.features_label")}
                 <span className="ml-1 text-caffio-green">*</span>
               </legend>
               <div className="grid gap-2 sm:grid-cols-2">
@@ -438,7 +462,7 @@ export default function SurveyForm() {
                         <span className={`text-sm font-medium leading-tight ${
                           isSelected ? "text-caffio-text" : "text-caffio-text/80"
                         }`}>
-                          {feat.label}
+                          {t(`feature.${feat.id}`)}
                         </span>
                       </div>
                     </label>
@@ -449,14 +473,14 @@ export default function SurveyForm() {
 
             <fieldset>
               <legend className="mb-3 text-sm font-semibold text-caffio-text">
-                Quelle fonctionnalité est la plus importante ?
+                {t("step1.most_important_label")}
               </legend>
               <textarea
                 value={formData.mostImportantFeature}
                 onChange={(e) =>
                   update("mostImportantFeature", e.target.value)
                 }
-                placeholder="Décrivez la fonctionnalité essentielle à vos yeux…"
+                placeholder={t("step1.most_important_placeholder")}
                 rows={3}
                 className="w-full resize-none rounded-xl border border-caffio-border bg-caffio-surface px-4 py-3.5 text-sm text-caffio-text placeholder:text-caffio-text-muted/50 transition-all focus:border-caffio-green focus:shadow-[0_0_0_3px_rgba(123,143,106,0.1)] focus:outline-none"
               />
@@ -464,14 +488,14 @@ export default function SurveyForm() {
 
             <fieldset>
               <legend className="mb-3 text-sm font-semibold text-caffio-text">
-                Une idée de fonctionnalité à nous suggérer ?
+                {t("step1.suggestion_label")}
               </legend>
               <textarea
                 value={formData.featureSuggestion ?? ""}
                 onChange={(e) =>
                   update("featureSuggestion", e.target.value)
                 }
-                placeholder="Décrivez une feature que vous aimeriez voir dans Caffio…"
+                placeholder={t("step1.suggestion_placeholder")}
                 rows={3}
                 className="w-full resize-none rounded-xl border border-caffio-border bg-caffio-surface px-4 py-3.5 text-sm text-caffio-text placeholder:text-caffio-text-muted/50 transition-all focus:border-caffio-green focus:shadow-[0_0_0_3px_rgba(123,143,106,0.1)] focus:outline-none"
               />
@@ -484,16 +508,16 @@ export default function SurveyForm() {
           <div className="animate-fade-in-up space-y-8">
             <div>
               <h2 className="font-display text-2xl font-bold text-caffio-text">
-                Expérience utilisateur
+                {t("step2.title")}
               </h2>
               <p className="mt-1 text-sm text-caffio-text-muted">
-                Vos préférences pour le design et l&apos;expérience
+                {t("step2.subtitle")}
               </p>
             </div>
 
             <fieldset>
               <legend className="mb-3 text-sm font-semibold text-caffio-text">
-                Ce qui compte le plus dans une app café
+                {t("step2.design_label")}
                 <span className="ml-1 text-caffio-green">*</span>
               </legend>
               <div className="grid gap-2 sm:grid-cols-2">
@@ -526,7 +550,7 @@ export default function SurveyForm() {
                       <span className={`text-sm font-medium ${
                         isSelected ? "text-caffio-text" : "text-caffio-text/80"
                       }`}>
-                        {opt.value}
+                        {t(opt.value)}
                       </span>
                     </label>
                   );
@@ -536,7 +560,7 @@ export default function SurveyForm() {
 
             <fieldset>
               <legend className="mb-3 text-sm font-semibold text-caffio-text">
-                Mode sombre
+                {t("step2.dark_mode_label")}
               </legend>
               <div className="flex flex-wrap gap-2">
                 {darkModeOptions.map((option) => (
@@ -550,7 +574,7 @@ export default function SurveyForm() {
                         : "border-caffio-border bg-caffio-card text-caffio-text hover:border-caffio-warm/40"
                     }`}
                   >
-                    {option}
+                    {t(option)}
                   </button>
                 ))}
               </div>
@@ -558,12 +582,12 @@ export default function SurveyForm() {
 
             <fieldset>
               <legend className="mb-3 text-sm font-semibold text-caffio-text">
-                Utilisez-vous d&apos;autres apps cafe ?
+                {t("step2.other_apps_label")}
               </legend>
               <textarea
                 value={formData.otherApps}
                 onChange={(e) => update("otherApps", e.target.value)}
-                placeholder="Nommez les apps que vous utilisez et ce que vous aimez ou non…"
+                placeholder={t("step2.other_apps_placeholder")}
                 rows={3}
                 className="w-full resize-none rounded-xl border border-caffio-border bg-caffio-surface px-4 py-3.5 text-sm text-caffio-text placeholder:text-caffio-text-muted/50 transition-all focus:border-caffio-green focus:shadow-[0_0_0_3px_rgba(123,143,106,0.1)] focus:outline-none"
               />
@@ -571,12 +595,12 @@ export default function SurveyForm() {
 
             <fieldset>
               <legend className="mb-3 text-sm font-semibold text-caffio-text">
-                Commentaires ou suggestions
+                {t("step2.comments_label")}
               </legend>
               <textarea
                 value={formData.comments}
                 onChange={(e) => update("comments", e.target.value)}
-                placeholder="Quelque chose à ajouter ? Dites-nous tout…"
+                placeholder={t("step2.comments_placeholder")}
                 rows={3}
                 className="w-full resize-none rounded-xl border border-caffio-border bg-caffio-surface px-4 py-3.5 text-sm text-caffio-text placeholder:text-caffio-text-muted/50 transition-all focus:border-caffio-green focus:shadow-[0_0_0_3px_rgba(123,143,106,0.1)] focus:outline-none"
               />
@@ -608,7 +632,7 @@ export default function SurveyForm() {
             <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
               <polyline points="15 18 9 12 15 6" />
             </svg>
-            Precedent
+            {t("btn.previous")}
           </button>
         ) : (
           <div />
@@ -620,7 +644,7 @@ export default function SurveyForm() {
             onClick={next}
             className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-caffio-green to-caffio-green-light px-6 py-3 text-sm font-semibold text-white shadow-md shadow-caffio-green/20 transition-all hover:shadow-lg hover:shadow-caffio-green/30"
           >
-            Suivant
+            {t("btn.next")}
             <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
               <polyline points="9 18 15 12 9 6" />
             </svg>
@@ -635,11 +659,11 @@ export default function SurveyForm() {
             {submitting ? (
               <>
                 <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
-                Envoi...
+                {t("btn.submitting")}
               </>
             ) : (
               <>
-                Envoyer
+                {t("btn.submit")}
                 <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12" />
                 </svg>

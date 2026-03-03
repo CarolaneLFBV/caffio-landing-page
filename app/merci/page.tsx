@@ -1,8 +1,19 @@
+"use client";
+
 import Link from "next/link";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { useLanguage } from "@/lib/LanguageContext";
 
 export default function MerciPage() {
+  const { t } = useLanguage();
+
   return (
     <main className="relative flex min-h-screen items-center justify-center px-4">
+      {/* Language switcher */}
+      <div className="absolute top-4 right-4">
+        <LanguageSwitcher />
+      </div>
+
       {/* Background effects */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/3 left-1/2 h-[600px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-caffio-green/5 blur-[150px]" />
@@ -19,17 +30,15 @@ export default function MerciPage() {
 
         {/* Title */}
         <h1 className="animate-fade-in-up font-display text-4xl font-bold tracking-tight text-caffio-text sm:text-5xl" style={{ animationDelay: "100ms" }}>
-          Merci beaucoup !
+          {t("merci.title")}
         </h1>
 
         {/* Description */}
         <p className="animate-fade-in-up mt-4 text-lg text-caffio-text-muted" style={{ animationDelay: "200ms" }}>
-          Vos réponses ont bien été enregistrées.
+          {t("merci.description")}
         </p>
         <p className="animate-fade-in-up mt-2 text-sm leading-relaxed text-caffio-text-muted/70" style={{ animationDelay: "300ms" }}>
-          Elles nous aident à construire Caffio, l&apos;app café qui vous
-          ressemble. Chaque réponse compte pour prioriser les bonnes
-          fonctionnalités.
+          {t("merci.detail")}
         </p>
 
         {/* CTA */}
@@ -41,7 +50,7 @@ export default function MerciPage() {
             <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
               <polyline points="15 18 9 12 15 6" />
             </svg>
-            Retour a l&apos;accueil
+            {t("merci.back")}
           </Link>
         </div>
       </div>
