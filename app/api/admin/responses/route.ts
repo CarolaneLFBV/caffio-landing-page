@@ -1,10 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { promises as fs } from "fs";
-import path from "path";
 import { verifyToken } from "../auth/route";
-
-const DATA_FILE = path.join(process.cwd(), "data", "responses.json");
+import clientPromise from "@/lib/mongodb";
 
 export async function GET() {
   const cookieStore = await cookies();
@@ -32,8 +29,9 @@ export async function GET() {
   }
 
   try {
-    const data = await fs.readFile(DATA_FILE, "utf-8");
-    const responses = JSON.parse(data);
+    const client = await clientPromise;
+    const db = client.db("caffio-survey");
+    const responses = await db.collection("responses").find({}).toArray();
     return NextResponse.json(responses);
   } catch {
     return NextResponse.json([]);

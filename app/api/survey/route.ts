@@ -1,25 +1,6 @@
 import { NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
 import crypto from "crypto";
-
-const DATA_FILE = path.join(process.cwd(), "data", "responses.json");
-
-interface SurveyResponse {
-  id: string;
-  timestamp: string;
-  frequency: string;
-  coffeeTypes: string[];
-  equipment: string[];
-  expertise: string;
-  features: string[];
-  mostImportantFeature: string;
-  featureSuggestion: string;
-  designPriority: string;
-  darkMode: string;
-  otherApps: string;
-  comments: string;
-}
+import clientPromise from "@/lib/mongodb";
 
 export async function POST(request: Request) {
   try {
@@ -32,7 +13,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const entry: SurveyResponse = {
+    const entry = {
       id: crypto.randomUUID(),
       timestamp: new Date().toISOString(),
       frequency: body.frequency,
@@ -48,16 +29,9 @@ export async function POST(request: Request) {
       comments: body.comments || "",
     };
 
-    let responses: SurveyResponse[] = [];
-    try {
-      const data = await fs.readFile(DATA_FILE, "utf-8");
-      responses = JSON.parse(data);
-    } catch {
-      await fs.mkdir(path.dirname(DATA_FILE), { recursive: true });
-    }
-
-    responses.push(entry);
-    await fs.writeFile(DATA_FILE, JSON.stringify(responses, null, 2));
+    const client = await clientPromise;
+    const db = client.db("caffio-survey");
+    await db.collection("responses").insertOne(entry);
 
     return NextResponse.json(
       { message: "Reponse enregistree avec succes", id: entry.id },
